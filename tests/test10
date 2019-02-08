@@ -1,0 +1,11 @@
+name = Test 10
+num_nodes = 10
+num_locations = 20
+num_scripts = 30
+duration = 10
+scripts_delay = 0.1,0.2
+script_sleep = 0.05,0.1
+parallel_script = False
+timeout = 100
+overlap = 10
+script_assignment = RANDOM

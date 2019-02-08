@@ -1,0 +1,12 @@
+name = Test 2
+num_nodes = 2
+num_locations = 3
+num_scripts = 3
+duration = 3
+scripts_delay = 0,0
+script_sleep = 0,0
+parallel_script = False
+timeout = 2
+overlap = 2
+script_assignment = ALL
+
