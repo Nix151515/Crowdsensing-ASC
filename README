@@ -1,0 +1,32 @@
+
+Detalii de implementare:
+
+	- Am adaugat ca proprietati ale device-ului:
+		- o bariera (cu conditie, din laborator) shared care sa astepte
+		terminarea timepoint-ului de catre fiecare device
+		- o lista de lock-uri shared care sa restrictioneze accesul
+		simultan la o anumita zona.
+		- o coada sincronizata (Queue) care va permite accesul organizat al
+		workerilor la scripturile primite
+	
+	- Threadul principal (DeviceThread):
+		- Anunta workerii printr-un event cand nu mai este nimic de prelucrat
+		(nu se intalnesc vecini).
+		- Asteapta primirea tuturor scripturilor si le introduce in coada
+		pentru a fi prelucrate de workeri.
+		- Asteapta ca fiecare device sa proceseze scripturile (prin asteptarea
+		golirii cozii) si sa treaca impreuna la urmatorul timepoint
+		(utilizand bariera).
+	
+	- Clasa (ScriptWorker) implementeaza comportamentul unui worker
+	si este gestionat de thread-ul principal.
+		Un worker face urmatoarele actiuni:
+		- Preia un script din coada si afla zona pe care va lucra
+		- Pune un lock pe acea zona pentru a pastra consistenta informatiei
+		- Ruleaza codul din schelet (preia datele de la vecinii din acea
+		  zona si actualizeaza valorile)
+		- Elibereaza accesul la zona
+		- Contine functiile
+			- add_location : adauga o locatie in array daca nu exista
+			- set_lock : seteaza lock-ul pentru locatia respectiva
+			- release_lock : elibereaza lock-ul pentru acea locatie
